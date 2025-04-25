@@ -9,7 +9,7 @@ import polars as pl
 @dg.asset
 def pricelist_polars_dataframe():
     result: pl.DataFrame = pl.read_excel(
-        "/home/tarmo/Downloads/auger_pricelist.xlsx",
+        "/mnt/c/Users/tarmos/OneDrive - BALTI AUTOOSAD AS/auger/Balti Autoosad AS.XLSX",
         engine="calamine",
     )
     num_rows = len(result)

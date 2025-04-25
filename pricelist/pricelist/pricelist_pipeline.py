@@ -4,7 +4,7 @@ from dlt.common.storages.fsspec_filesystem import FileItemDict
 from dlt.common.typing import TDataItems
 from dlt.sources.filesystem import filesystem
 
-BUCKET_URL = "file:/home/tarmo/Downloads"
+BUCKET_URL = "/mnt/c/Users/tarmos/OneDrive - BALTI AUTOOSAD AS/auger/"
 
 
 @dlt.transformer(standalone=True)
@@ -34,7 +34,7 @@ def read_xml(items: Iterator[FileItemDict]) -> Iterator[TDataItems]:
 @dlt.resource(write_disposition="append")
 def excel_resource():
     return (
-        filesystem(bucket_url=BUCKET_URL, file_glob="auger_pricelist.xlsx")
+        filesystem(bucket_url=BUCKET_URL, file_glob="Balti Autoosad AS.XLSX")
         | read_excel()
     )
 
