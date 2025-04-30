@@ -1,5 +1,3 @@
-from dlt.sources.filesystem import filesystem, read_csv
-import dlt
 import duckdb
 import polars as pl
 

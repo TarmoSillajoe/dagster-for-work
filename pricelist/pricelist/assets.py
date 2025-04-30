@@ -4,6 +4,29 @@ from dlt import pipeline
 from .pricelist_pipeline import excel_source
 import dagster as dg
 import polars as pl
+from dagster_duckdb import DuckDBResource
+
+
+# @dg.asset
+@dg.asset
+def koivunen_pricelist_duckdb(database: DuckDBResource):
+    bucket_url = "/mnt/c/Users/tarmos/OneDrive - BALTI AUTOOSAD AS/koivunen/"
+
+    with database.get_connection() as conn:
+        conn.execute(
+            f"""
+            create or replace table koivunen_staged as
+            from 
+                read_csv('{bucket_url}/basic_info.csv',
+                    sep='|',
+                    normalize_names=true,
+                    null_padding=true,
+                    ignore_errors=true,
+                    decimal_separator=',',
+                    types={{ 'ean_code': varchar }}
+                        );
+            """
+        )
 
 
 @dg.asset
@@ -20,7 +43,7 @@ def pricelist_polars_dataframe():
     dlt_source=excel_source(),
     dlt_pipeline=pipeline(
         pipeline_name="pricelist_pipeline",
-        dataset_name="pricelist_data",
+        dataset_name="staging",
         destination="duckdb",
     ),
     name="pricelist",
